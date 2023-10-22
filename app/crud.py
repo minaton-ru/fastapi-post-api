@@ -4,7 +4,7 @@ from app import schemas, models
 
 
 def create_question(question_data: schemas.CreateQuestionSchema,
-                    db: Session):
+                    db: Session) -> models.Question:
     """
     Создание и запись в БД нового вопроса.
     На вход получает словарь с данными.

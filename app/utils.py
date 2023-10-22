@@ -1,7 +1,8 @@
 import aiohttp
+from typing import List
 
 
-async def get_new_quiz_from_jservice(questions_count: int) -> dict | None:
+async def get_new_quiz_from_jservice(questions_count: int) -> List[dict]:
     """
     Загрузка вопрсов с сервиса jService.
     На вход принимает int число вопросов, которые нужно загрузить.

@@ -15,7 +15,7 @@ router = APIRouter()
 
 
 async def check_unique_question(question_data: schemas.CreateQuestionSchema,
-                                db: Session):
+                                db: Session) -> models.Question | None:
     """
     Проверяет наличие в БД вопроса по его id. Если вопрос с таким id уже
     существует в БД, то запрашивает с сервиса jService еще один вопрос и
@@ -42,7 +42,7 @@ async def check_unique_question(question_data: schemas.CreateQuestionSchema,
         await check_unique_question(data[0], db)
 
     else:
-        create_question(question_data, db)
+        return create_question(question_data, db)
 
 
 @router.post('/', status_code=status.HTTP_201_CREATED)
