@@ -1,3 +1,5 @@
+import aiohttp
+
 from sqlalchemy.orm import Session
 from sqlalchemy.exc import IntegrityError
 from sqlalchemy.sql import exists
@@ -23,9 +25,22 @@ async def check_unique_question(question_data: schemas.CreateQuestionSchema,
     На вход получает словарь с данными вопроса с jService.
     """
     id = question_data["id"]
+
     if db.query(exists().where(models.Question.id == id)).scalar():
-        data = await get_new_quiz_from_jservice(1)
+
+        # Проверяем количество вопросов в нашей базе. Их не может быть больше,
+        # чем есть у сервиса jService
+        count = db.query(models.Question).count()
+        if count == 221510:
+            raise HTTPException(status_code=406,
+                                detail="Exceeded the number of questions")
+
+        try:
+            data = await get_new_quiz_from_jservice(1)
+        except aiohttp.ClientConnectorError:
+            raise HTTPException(status.HTTP_503_SERVICE_UNAVAILABLE)
         await check_unique_question(data[0], db)
+
     else:
         create_question(question_data, db)
 
@@ -41,7 +56,10 @@ async def load_and_create_questions(params: schemas.QuestionsNum,
     уникальные вопросы в БД.
     Возвращает предыдущий сохраненный в БД вопрос.
     """
-    data = await get_new_quiz_from_jservice(params.questions_num)
+    try:
+        data = await get_new_quiz_from_jservice(params.questions_num)
+    except aiohttp.ClientConnectorError:
+        raise HTTPException(status.HTTP_503_SERVICE_UNAVAILABLE)
 
     for questions_data in data:
         try:
