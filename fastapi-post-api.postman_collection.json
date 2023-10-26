@@ -21,12 +21,14 @@
 					}
 				},
 				"url": {
-					"raw": "http://localhost:8000/api/question/",
+					"raw": "http://127.0.0.1/api/question/",
 					"protocol": "http",
 					"host": [
-						"localhost"
+						"127",
+						"0",
+						"0",
+						"1"
 					],
-					"port": "8000",
 					"path": [
 						"api",
 						"question",
