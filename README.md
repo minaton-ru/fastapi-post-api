@@ -77,19 +77,18 @@ $ git clone https://github.com/minaton-ru/fastapi-post-api.git
 ```
 2. Создать файл `.env` для переменных окружения. Пример файла:
 ```
-DATABASE_PORT=5432
+POSTGRES_PORT=5432
 POSTGRES_PASSWORD=password1
 POSTGRES_USER=postgresuser
 POSTGRES_DB=question
 POSTGRES_HOST=database
-POSTGRES_HOSTNAME=127.0.0.1
 ```
 3. Сборка образа и запуск контейнеров:  
 ```
 docker-compose up --build
 ```
 
-4. Открыть в браузере URL c Swagger-документацией  `http://127.0.0.1/docs/`, указать количество вопросов и сделать тестовый запрос.
+4. Открыть в браузере URL c Swagger-документацией  `http://127.0.0.1/docs/`, указать количество вопросов и сделать тестовый запрос на ендпойнт `/api/question/`.
 5. Или через Postman отправить POST-запросы с помощью коллекции [fastapi-post-api.postman_collection.json](fastapi-post-api.postman_collection.json).  
 
 ## TODO  
