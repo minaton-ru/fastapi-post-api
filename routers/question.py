@@ -46,8 +46,9 @@ async def check_unique_question(question_data: schemas.CreateQuestionSchema,
 
 
 @router.post('/', status_code=status.HTTP_201_CREATED)
-async def load_and_create_questions(params: schemas.QuestionsNum,
-                                    db: Session = Depends(get_db)):
+async def load_and_create_questions(
+    params: schemas.QuestionsNum, db: Session = Depends(get_db)
+) -> models.Question | None:
     """
     Ендпойнт принимает POST запрос в виде:
     {"questions_num": N}
